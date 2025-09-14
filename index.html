@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A comprehensive directory of trusted Australian health resources for patients and practitioners, collated by TheSamaGP. Find support for mental health, chronic conditions, and more.">
+    <title>Australian Health & Wellbeing Resource Directory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFFFFF;
+            color: #1a1a1a; /* Main text color */
+        }
+        .filter-btn, .audience-btn {
+            transition: all 0.2s ease-in-out;
+            background-color: #F0F0F0;
+            color: #333333;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .filter-btn:hover, .audience-btn:hover {
+            background-color: #E0E0E0;
+        }
+        .filter-btn.active, .audience-btn.active {
+            background-color: #4b5563; /* Active button color */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .filter-btn.active svg {
+            color: white;
+        }
+        .resource-card {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #E5E7EB;
+        }
+        .blog-card {
+            background-color: #f7fafc;
+            border-left: 4px solid #4b5563;
+        }
+        .visit-btn {
+            background-color: #4b5563; /* Main button color */
+            transition: background-color 0.2s ease-in-out;
+        }
+        .visit-btn:hover {
+            background-color: #56585e; /* Button hover color */
+        }
+        .header-text {
+            color: #1a1a1a;
+        }
+        .subheader-text {
+            color: #56585e;
+        }
+        #a-z-index a {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        #a-z-index a:hover {
+            background-color: #E0E0E0;
+        }
+        h2.letter-header {
+            scroll-margin-top: 20px; /* Adjust as needed for your header height */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <!-- Header Section -->
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold header-text mb-2">Health & Wellbeing Directory</h1>
+            <p class="text-md sm:text-lg subheader-text max-w-3xl mx-auto">A curated list of trusted Australian health resources for patients and practitioners.</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="mb-6 max-w-2xl mx-auto">
+            <input type="text" id="search-bar" placeholder="Search by condition, service, or keyword..." class="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#4b5563]">
+        </div>
+
+        <!-- Audience Toggle -->
+        <div id="audience-toggle" class="flex justify-center items-center gap-4 mb-6 text-sm">
+            <span class="font-semibold subheader-text">Show for:</span>
+            <div class="flex gap-2 rounded-full p-1 bg-gray-100">
+                <button class="audience-btn active px-4 py-1 rounded-full" data-audience="all">All</button>
+                <button class="audience-btn px-4 py-1 rounded-full" data-audience="patients">Patients</button>
+                <button class="audience-btn px-4 py-1 rounded-full" data-audience="professionals">Professionals</button>
+            </div>
+        </div>
+
+        <!-- Filter Navigation -->
+        <nav id="filter-nav" class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 md:mb-12">
+            <button id="home-btn" class="filter-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                <span>Home</span>
+            </button>
+            <button class="filter-btn active" data-category="all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
+                <span>Show All</span>
+            </button>
+            <button class="filter-btn" data-category="thesamagp-blog">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>
+                <span>From the Blog</span>
+            </button>
+            <button class="filter-btn" data-category="mental-health">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm-1.5 5.5A2.5 2.5 0 005 9.5V8a1 1 0 00-2 0v1.5a4.5 4.5 0 109 0V8a1 1 0 00-2 0v1.5a2.5 2.5 0 00-2.5 2.5h-2z" /></svg>
+                <span>Mental Health</span>
+            </button>
+            <button class="filter-btn" data-category="family-support">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                <span>Family & Relationships</span>
+            </button>
+            <button class="filter-btn" data-category="mens-health">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                <span>Men's Health</span>
+            </button>
+            <button class="filter-btn" data-category="womens-health">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                <span>Women's Health</span>
+            </button>
+            <button class="filter-btn" data-category="general-health">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+                <span>General & Chronic</span>
+            </button>
+            <button class="filter-btn" data-category="specific-communities">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
+                <span>Specific Communities</span>
+            </button>
+        </nav>
+
+        <!-- A-Z Index -->
+        <div id="a-z-index" class="flex flex-wrap justify-center gap-x-2 sm:gap-x-3 gap-y-2 mb-8 text-sm sm:text-base font-semibold text-gray-600">
+            <!-- A-Z links will be generated here -->
+        </div>
+
+        <!-- Resources Grid -->
+        <main id="resource-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Cards will be injected here by JavaScript -->
+        </main>
+        <div id="no-results" class="text-center text-gray-500 py-12 hidden">
+            <p class="text-lg">No resources found for '<span id="search-term" class="font-semibold"></span>'.</p>
+            <p>Please try another term or browse the categories above.</p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8">
+        <p class="text-sm subheader-text">
+            <a href="https://thesamagp.com/resources" target="_blank" class="hover:underline">Collated by TheSamaGp</a>
+        </p>
+    </footer>
+
+    <script>
+        const resources = [
+            // From TheSamaGP Blog
+            { name: "Navigating Night-Time Wetting: A Guide for Parents", url: "https://thesamagp.com/navigating-night-time-wetting-a-guide-for-parents-and-carers", description: "An article from TheSamaGP exploring the causes of bedwetting (enuresis) in children and offering practical advice and support for families.", category: "thesamagp-blog", keywords: "bed wetting enuresis children parents guide night time wetting kids continence", audience: ['patients'] },
+            { name: "The PSA Test: A Simple Blood Test, A Complicated Decision", url: "https://thesamagp.com/the-psa-test-a-simple-blood-test-a-complicated-decision", description: "An in-depth look at the pros and cons of Prostate-Specific Antigen (PSA) testing for prostate cancer screening, from TheSamaGP.", category: "thesamagp-blog", keywords: "psa test prostate cancer screening mens health blood test", audience: ['patients', 'professionals'] },
+            { name: "Breathe Easier: Australia's New Lung Cancer Screening Program", url: "https://thesamagp.com/breathe-easier-a-guide-to-australias-new-lung-cancer-screening-program", description: "TheSamaGP explains the new national lung cancer screening program, who is eligible, and what it involves.", category: "thesamagp-blog", keywords: "lung cancer screening program smoking copd breathing chest", audience: ['patients', 'professionals'] },
+
+            // Mental Health
+            { name: "Alcohol & Drug Foundation", url: "https://adf.org.au/", description: "A leading Australian organisation providing facts, support and resources on alcohol and other drugs to prevent and reduce harm in communities. Offers the Path2Help tool to find local support services.", category: "mental-health", keywords: "alcohol drugs addiction rehab drug prevention substance use dependency Path2Help harm reduction ice cannabis heroin overdose", audience: ['patients', 'professionals'] },
+            { name: "Beyond Blue", url: "https://www.beyondblue.org.au/", description: "Provides comprehensive information and 24/7 support for anxiety, depression, and suicide prevention. Features online forums, a support service, and tailored resources for diverse communities.", category: "mental-health", keywords: "sad worried stressed mental health depression anxiety suicide support service helpline forums postnatal depression PND mental wellbeing grief trauma panic attacks", audience: ['patients', 'professionals'] },
+            { name: "Black Dog Institute", url: "https://www.blackdoginstitute.org.au/", description: "A world-leading medical research institute dedicated to the diagnosis, treatment, and prevention of mood disorders such as depression, bipolar disorder, and suicide.", category: "mental-health", keywords: "black dog mood disorder depression bipolar research mental health", audience: ['patients', 'professionals'] },
+            { name: "Blue Knot Foundation", url: "https://www.blueknot.org.au/", description: "The national centre of excellence for complex trauma, providing support, education, and advocacy for adult survivors of childhood trauma and abuse.", category: "mental-health", keywords: "childhood trauma abuse complex ptsd c-ptsd survivors counselling professional development", audience: ['patients', 'professionals'] },
+            { name: "Butterfly Foundation", url: "https://butterfly.org.au/", description: "The national charity for Australians impacted by eating disorders and body image issues. Provides the ED Hope national helpline, support groups, and resources for recovery.", category: "mental-health", keywords: "eating disorder anorexia bulimia body image ED Hope binge eating body dysmorphia disordered eating recovery support group", audience: ['patients', 'professionals'] },
+            { name: "Counselling Online", url: "https://www.counsellingonline.org.au/", description: "A free and confidential 24/7 online chat service for people affected by alcohol and other drug issues, run by Turning Point.", category: "mental-health", keywords: "alcohol drug counselling online chat 24/7 free confidential substance use", audience: ['patients'] },
+            { name: "Family Drug Support Australia", url: "https://www.fds.org.au/", description: "Provides a 24/7 national telephone support line for families and friends dealing with a loved one's alcohol or drug use.", category: "mental-health", keywords: "family support drugs alcohol addiction loved one helpline family drug support", audience: ['patients'] },
+            { name: "Gambling Help Online", url: "https://www.gamblinghelponline.org.au/", description: "Provides free, 24/7 professional and confidential support via phone, chat, and email for anyone affected by gambling harm.", category: "mental-health", keywords: "gambling addiction betting poker machines problem gambling pokies sports betting financial counselling", audience: ['patients'] },
+            { name: "GriefLine", url: "https://griefline.org.au/", description: "A national helpline providing free, confidential telephone counselling for people experiencing loss and grief.", category: "mental-health", keywords: "grief loss bereavement death dying sadness counselling support line", audience: ['patients'] },
+            { name: "Head to Health", url: "https://www.headtohealth.gov.au/", description: "A government digital mental health gateway that helps people find trusted online and phone services, apps, and resources that are right for them.", category: "mental-health", keywords: "digital mental health resources apps online support find a service government", audience: ['patients', 'professionals'] },
+            { name: "Headspace", url: "https://headspace.org.au/", description: "The National Youth Mental Health Foundation, providing free and confidential early intervention mental health services to young people aged 12-25, both online and in-person.", category: "mental-health", keywords: "youth teenager young adult mental health eheadspace counselling work and study support school stress bullying exam stress identity sexuality", audience: ['patients', 'professionals'] },
+            { name: "InsideOut Institute", url: "https://insideoutinstitute.org.au/", description: "Australia's national institute for research and clinical excellence in eating disorders. Aims to transform treatment through research, training for health professionals, and advocacy.", category: "mental-health", keywords: "eating disorders anorexia nervosa bulimia nervosa binge eating disorder research clinician training inside out treatment services", audience: ['professionals'] },
+            { name: "Lifeline", url: "https://www.lifeline.org.au/", description: "A national charity providing 24/7 crisis support and suicide prevention services to all Australians experiencing emotional distress. Offers confidential phone (13 11 14), text, and online chat.", category: "mental-health", keywords: "crisis suicide emergency help 24/7 helpline text support lonely hopeless overwhelmed suicidal thoughts domestic violence", audience: ['patients'] },
+            { name: "Medicare Mental Health", url: "https://www.medicarementalhealth.gov.au/", description: "A free, confidential service from the Australian Government to support mental health, providing information on available services and support.", category: "mental-health", keywords: "medicare mental health government support services", audience: ['patients'] },
+            { name: "MindSpot", url: "https://www.mindspot.org.au/", description: "A free, government-funded online and telephone clinic providing assessment and therapist-guided digital treatment for adults experiencing stress, anxiety, depression, and low mood.", category: "mental-health", keywords: "online clinic digital health telehealth therapist guided free mental health treatment courses", audience: ['patients'] },
+            { name: "Moodgym", url: "https://www.moodgym.com.au/", description: "An interactive online self-help program that teaches cognitive behaviour therapy (CBT) skills to help users prevent and manage symptoms of depression and anxiety.", category: "mental-health", keywords: "cbt cognitive behavioural therapy self-help online therapy anxiety management depression management negative thoughts", audience: ['patients'] },
+            { name: "MyCompass", url: "https://www.mycompass.org.au/", description: "A free online self-help tool from the Black Dog Institute that creates personalized mental health treatment plans for mild-to-moderate stress, anxiety, and depression.", category: "mental-health", keywords: "self-help online program stress management Black Dog Institute mental health plan tracker", audience: ['patients'] },
+            { name: "National Alcohol & Other Drug Hotline", url: "https://toolkit.lifeline.org.au/articles/support/national-alcohol-other-drug-hotline", description: "A national 24/7 hotline providing confidential advice, counselling, and referral for individuals and families affected by alcohol and other drug issues.", category: "mental-health", keywords: "alcohol hotline drug hotline aod helpline addiction support substance abuse confidential counselling", audience: ['patients'] },
+            { name: "PANDA", url: "https://panda.org.au/", description: "Perinatal Anxiety & Depression Australia supports families across Australia affected by anxiety and depression during pregnancy and the first year of parenthood via a national helpline.", category: "mental-health", keywords: "postnatal perinatal pregnancy new parent baby blues infant antenatal depression postpartum PND dads mental health", audience: ['patients'] },
+            { name: "ReachOut", url: "https://au.reachout.com/", description: "Australia's leading online mental health service for young people and their parents, providing practical support, self-help information, peer support and referral tools.", category: "mental-health", keywords: "youth teenager school university help parent support anxious depressed teen exam stress relationships", audience: ['patients'] },
+            { name: "Remote Therapy Australia", url: "https://www.remotetherapy.com.au/", description: "Provides bulk-billed online psychology sessions via telehealth to individuals across Australia, making mental health support convenient and affordable with a mental health care plan.", category: "mental-health", keywords: "psychology mental health remote therapy telehealth bulk billing online psychologist counselling video therapy", audience: ['patients', 'professionals'] },
+            { name: "Sane Australia", url: "https://www.sane.org/", description: "Provides support, information, and advocacy for people with complex mental health issues, including schizophrenia, bipolar disorder, and PTSD, and for their families and carers.", category: "mental-health", keywords: "sane complex mental health schizophrenia bipolar ptsd support helpline", audience: ['patients', 'professionals'] },
+            { name: "SKAI", url: "https://skai.org.au/", description: "A suite of resources for Australian health professionals, providing evidence-based training and communication tools for suicide prevention.", category: "mental-health", keywords: "suicide prevention clinician resources gatekeeper training for GPs mental health professionals", audience: ['professionals'] },
+            { name: "Smiling Mind", url: "https://www.smilingmind.com.au/", description: "A leading mental wellbeing non-profit that provides a free, evidence-based mindfulness meditation app for all ages to help build mental fitness and resilience.", category: "mental-health", keywords: "meditation mindfulness relax calm wellbeing app for kids for adults stress reduction sleep", audience: ['patients'] },
+            { name: "Someone Health", url: "https://someone.health/", description: "A bulk-billing telehealth psychology service providing accessible mental health care across Australia via video call, with no out-of-pocket costs with a valid mental health care plan.", category: "mental-health", keywords: "psychology mental health telehealth bulk billing psychologist counselling therapy video call someone health online psychologist free", audience: ['patients', 'professionals'] },
+            { name: "Suicide Call Back Service", url: "https://www.suicidecallbackservice.org.au/", description: "A national 24/7 service providing free telephone and online counselling for anyone affected by suicide, including those feeling suicidal, worried about someone, or bereaved.", category: "mental-health", keywords: "suicide helpline counselling crisis support bereavement suicidal thoughts", audience: ['patients'] },
+            { name: "This Way Up", url: "https://thiswayup.org.au/", description: "Provides evidence-based online courses using Cognitive Behavioural Therapy (CBT) for a range of mental health conditions, including anxiety, depression, insomnia, and OCD.", category: "mental-health", keywords: "cbt online courses anxiety treatment insomnia social anxiety sleep problems OCD chronic pain", audience: ['patients', 'professionals'] },
+            { name: "Turning Point", url: "https://www.turningpoint.org.au/", description: "A national addiction treatment, research and education centre providing specialist support services for individuals affected by alcohol, drugs, and gambling.", category: "mental-health", keywords: "addiction alcohol drugs gambling substance use treatment rehab recovery turning point AOD", audience: ['patients', 'professionals'] },
+            { name: "White Cloud Foundation", url: "https://whitecloudfoundation.org/", description: "An Australian charity providing free, professional telehealth counselling and support for depression and anxiety, with a strong focus on early intervention and perinatal mental health.", category: "mental-health", keywords: "telehealth counselling mental health support depression anxiety perinatal postnatal free counselling new mum new dad", audience: ['patients'] },
+            
+            // Family and Relationship Support
+            { name: "Canteen", url: "https://www.canteen.org.au/", description: "Provides support for young people aged 12-25 who are dealing with their own or a family member's cancer diagnosis, through counselling, peer support, and programs.", category: "family-support", keywords: "canteen young people cancer youth cancer support teenager with cancer", audience: ['patients'] },
+            { name: "Carer Gateway", url: "https://www.carergateway.gov.au/", description: "A national service providing a range of practical information, resources, counselling, and support services like respite care for Australia's unpaid carers.", category: "family-support", keywords: "caring disability support aged care support respite caregiver young carer", audience: ['patients'] },
+            { name: "Cerebral Palsy Alliance", url: "https://cerebralpalsy.org.au/", description: "Provides services, support, and research for people with cerebral palsy and their families.", category: "family-support", keywords: "cerebral palsy disability support children with disabilities therapy", audience: ['patients', 'professionals'] },
+            { name: "DV Connect", url: "https://www.dvconnect.org/", description: "A statewide telephone service in Queensland offering 24/7 support and crisis response for anyone affected by domestic or family violence, including dedicated lines for women and men.", category: "family-support", keywords: "domestic violence family violence abuse relationship emergency accommodation coercive control safety plan escape DV", audience: ['patients'] },
+            { name: "1800RESPECT", url: "https://www.1800respect.org.au/", description: "The national domestic, family and sexual violence counselling, information and support service. Free, confidential, and available 24/7 for anyone in Australia.", category: "family-support", keywords: "sexual assault abuse violence counselling national helpline consent sexual harassment family violence", audience: ['patients'] },
+            { name: "Kids Helpline", url: "https://kidshelpline.com.au/", description: "Australia's only free, private and confidential 24/7 phone and online counselling service for young people aged 5 to 25. A safe space to talk about anything.", category: "family-support", keywords: "child teenager bullying youth support cyber safety help for kids child abuse teenager problems friendship school mental health", audience: ['patients'] },
+            { name: "MCRI", url: "https://www.mcri.edu.au/", description: "The Murdoch Children's Research Institute is Australia's largest child health research institute, tackling conditions like allergies, genetics, and cancer, and providing clinical resources.", category: "family-support", keywords: "genetics screening children's research yourchoice carrier screen antenatal chromosomal conditions NIPT", audience: ['patients', 'professionals'] },
+            { name: "Possums for Parents & Bubs", url: "https://education.possumsonline.com/", description: "Provides evidence-based online programs and resources for parents on infant sleep, feeding, crying, and parent mental health.", category: "family-support", keywords: "possums baby sleep infant feeding crying fussy baby parent support", audience: ['patients'] },
+            { name: "Queensland Children's Hospital", url: "https://www.childrens.health.qld.gov.au/", description: "The major specialist children's hospital for Queensland, providing world-class care for children and young people, from birth up to 16 years of age.", category: "family-support", keywords: "qch queensland children's hospital brisbane paediatrics kids health children's health specialist referral paediatric emergency", audience: ['patients', 'professionals'] },
+            { name: "Raising Children Network", url: "https://raisingchildren.net.au/", description: "The complete Australian resource for parenting newborns to teens. Provides free, reliable, evidence-based information to help families grow and thrive.", category: "family-support", keywords: "parenting child development newborn toddler behaviour baby help toddler tantrums teenager advice discipline screen time", audience: ['patients'] },
+            { name: "RCH Kids Info", url: "https://www.rch.org.au/kidsinfo/", description: "Provides high-quality, up-to-date health fact sheets for parents and adolescents on a wide range of medical conditions and injuries, from The Royal Children's Hospital Melbourne.", category: "family-support", keywords: "children's health parenting kids illness paediatrics fact sheets paediatric children's hospital fever rash first aid", audience: ['patients', 'professionals'] },
+            { name: "Red Nose", url: "https://rednose.org.au/", description: "Australia's leading authority on safe sleep for babies. Provides evidence-based advice and education to reduce the risk of SIDS and offers bereavement support for families.", category: "family-support", keywords: "SIDS safe sleeping infant death bereavement support stillbirth miscarriage baby cot death sudden infant death syndrome tummy time swaddling", audience: ['patients', 'professionals'] },
+            { name: "Redkite", url: "https://www.redkite.org.au/", description: "An Australian charity providing essential and practical support to children with cancer and their families, including financial assistance, counselling, and education support.", category: "family-support", keywords: "childhood cancer kids cancer family support financial assistance counselling education support oncology paediatric", audience: ['patients'] },
+            { name: "Royal Children's Hospital Melbourne", url: "https://www.rch.org.au/", description: "A leading centre for paediatric care, research, and education in Australia. Provides specialist medical and surgical services for children and adolescents.", category: "family-support", keywords: "rch royal children's hospital melbourne paediatrics kids health children's health specialist outpatient emergency department child surgery", audience: ['patients', 'professionals'] },
+            { name: "Tresillian", url: "https://www.tresillian.org.au/", description: "An early parenting support service offering families guidance on infant sleep and settling, feeding, and parental mental health.", category: "family-support", keywords: "tresillian baby sleep settling feeding new parent support", audience: ['patients'] },
+            { name: "Young Carers Network", url: "https://www.youngcarersnetwork.com.au/", description: "A national program providing support, resources, and a bursary program to help young carers continue with their education.", category: "family-support", keywords: "young carer bursary student support caring for parent", audience: ['patients'] },
+
+            // Men's Health
+            { name: "Andrology Australia", url: "https://www.andrologyaustralia.org/", description: "Provides accessible, evidence-based information on male reproductive and sexual health for the community and health professionals.", category: "mens-health", keywords: "andrology male reproductive health sexual health infertility testosterone", audience: ['patients', 'professionals'] },
+            { name: "Healthy Male", url: "https://healthymale.org.au/", description: "Provides accessible, evidence-based information on a wide range of male health topics to help men, their partners, and health professionals understand and manage men's health.", category: "mens-health", keywords: "testosterone male health mens health erectile dysfunction sperm count anger balanitis penis prostate vasectomy impotence andrology low libido infertility alcohol premature ejaculation", audience: ['patients', 'professionals'] },
+            { name: "Mens Health Australia", url: "https://www.menshealthaustralia.com.au/", description: "A non-profit organisation focused on men's health promotion, providing news, resources, and advocacy on issues affecting Australian men.", category: "mens-health", keywords: "men's health promotion advocacy resources information", audience: ['patients', 'professionals'] },
+            { name: "MensLine Australia", url: "https://mensline.org.au/", description: "A national telephone and online support service for men with family and relationship concerns. Offers professional counselling and support for emotional health and wellbeing.", category: "mens-health", keywords: "men father relationship advice men's issues men's counselling anger management divorce separation stress work issues", audience: ['patients'] },
+            { name: "Men's Shed", url: "https://mensshed.org/", description: "A national grassroots organisation that supports men's health and wellbeing through a network of community-based sheds where men connect, create, and build social connections.", category: "mens-health", keywords: "men's group community mateship mental health for men social isolation loneliness retirement", audience: ['patients'] },
+            { name: "Movember", url: "https://au.movember.com/", description: "A leading global charity focused on men's health, raising funds and awareness for prostate cancer, testicular cancer, mental health, and suicide prevention.", category: "mens-health", keywords: "movember men's health prostate cancer testicular cancer mental health suicide prevention fundraising", audience: ['patients', 'professionals'] },
+            { name: "PCFA", url: "https://www.pcfa.org.au/", description: "The Prostate Cancer Foundation of Australia is dedicated to reducing the impact of prostate cancer through funding research, providing awareness, and specialist support nurses.", category: "mens-health", keywords: "prostate cancer men's cancer PSA test prostatectomy gleason score radiation therapy BPH", audience: ['patients', 'professionals'] },
+
+            // Women's Health
+            { name: "Aus. Menopause Society", url: "https://www.menopause.org.au/health-info/fact-sheets", description: "Provides evidence-based information and resources on menopause, perimenopause, and healthy ageing for women and healthcare professionals.", category: "womens-health", keywords: "menopause hot flushes hrt perimenopause AMS hot flashes night sweats MHT hormone therapy", audience: ['patients', 'professionals'] },
+            { name: "BUMPS - Medicines in Pregnancy", url: "https://www.medicinesinpregnancy.org/", description: "Provides reliable, evidence-based information on the use of specific medicines during pregnancy, helping patients and healthcare professionals make informed decisions about treatment.", category: "womens-health", keywords: "medicines in pregnancy bumps pregnancy safety medication teratology expecting drugs in pregnancy breastfeeding safety", audience: ['patients', 'professionals'] },
+            { name: "Children by Choice", url: "https://www.childrenbychoice.org.au/for-professionals/", description: "A non-profit organisation providing information, counselling, and support for women's reproductive and sexual health choices, including unplanned pregnancy, abortion, and contraception.", category: "womens-health", keywords: "unplanned pregnancy abortion termination contraception reproductive rights pro-choice sexual health counselling IUD pill", audience: ['patients', 'professionals'] },
+            { name: "Endometriosis Australia", url: "https://endometriosisaustralia.org/", description: "A national organisation dedicated to increasing awareness and providing education, support, and funding for research for endometriosis, a common and debilitating condition.", category: "womens-health", keywords: "endometriosis pelvic pain period pain adenomyosis women's health endo laparoscopy infertility", audience: ['patients', 'professionals'] },
+            { name: "Jean Hailes for Women's Health", url: "https://www.jeanhailes.org.au/", description: "A national not-for-profit dedicated to improving women's health across all life stages. Provides resources on menopause, PCOS, endometriosis, bone health, and more.", category: "womens-health", keywords: "women menopause periods pcos endometriosis contraception libido heavy periods menstrual cycle fertility bone health", audience: ['patients', 'professionals'] },
+            { name: "Mater TV", url: "https://www.youtube.com/@MaterTV", description: "A YouTube channel from Mater Mothers' Hospital providing expert advice and physiotherapy exercises for women during pregnancy, covering antenatal and postnatal care, pain management, and more.", category: "womens-health", keywords: "mater tv youtube antenatal pregnancy postnatal pain in pregnancy pregnancy physio physio exercise video maternity childbirth mothers hospital", audience: ['patients'] },
+            { name: "Natera - Panorama NIPT", url: "https://www.natera.com/resource-library/panorama/?type=Patient", description: "Provides patient information on the Panorama non-invasive prenatal test (NIPT), which screens for common chromosomal abnormalities like Down syndrome from a simple blood test.", category: "womens-health", keywords: "nipt panorama natera prenatal screening genetic testing chromosomal abnormalities Down syndrome trisomy 21 18 13", audience: ['patients', 'professionals'] },
+            { name: "Pelvic Floor First", url: "https://www.pelvicfloorfirst.org.au/", description: "An initiative of the Continence Foundation, providing information on pelvic floor safe exercises and connecting people with qualified fitness professionals to prevent and manage incontinence.", category: "womens-health", keywords: "pelvic floor exercise incontinence prolapse postnatal fitness kegels postpartum exercise safe exercise", audience: ['patients'] },
+            { name: "Pelvic Pain Foundation of Australia", url: "https://www.pelvicpain.org.au/", description: "A not-for-profit organisation focused on promoting education and providing support for people with pelvic pain, with a focus on conditions like endometriosis and adenomyosis.", category: "womens-health", keywords: "pelvic pain endometriosis period pain adenomyosis painful periods dyspareunia vulvodynia", audience: ['patients', 'professionals'] },
+            { name: "Pregnancy, Birth & Baby", url: "https://www.pregnancybirthbaby.org.au/", description: "A national 24/7 helpline providing free support and information from pregnancy to preschool, staffed by maternal child health nurses.", category: "womens-health", keywords: "pregnancy birth baby maternity antenatal postnatal breastfeeding genetic carrier screening NIPT non-invasive prenatal testing chromosomal conditions reproductive carrier screen carrier screen labour delivery newborn maternal health morning sickness", audience: ['patients'] },
+            { name: "RANZCOG", url: "https://www.ranzcog.edu.au/", description: "The Royal Australian and New Zealand College of Obstetricians and Gynaecologists. Provides patient information sheets on a wide range of women's health topics.", category: "womens-health", keywords: "ranzcog women's health obstetrics gynaecology pregnancy patient information", audience: ['patients', 'professionals'] },
+            { name: "SOMANZ", url: "https://somanz.org/", description: "The Society of Obstetric Medicine of Australia and New Zealand. A professional body for clinicians who care for women with medical conditions during pregnancy. Provides guidelines and resources for professionals.", category: "womens-health", keywords: "somanz obstetric medicine pregnancy complications medical disorders in pregnancy hypertension pre-eclampsia gestational diabetes clinician resource guidelines", audience: ['professionals'] },
+            { name: "The Royal Women's Hospital", url: "https://www.thewomens.org.au/", description: "Australia's largest public hospital specialising in women's health. Provides comprehensive services in maternity, gynaecology, newborn care, and research.", category: "womens-health", keywords: "the women's hospital maternity gynaecology newborn care reproductive health fertility women's health melbourne", audience: ['patients', 'professionals'] },
+            { name: "True Relationships & Reproductive Health", url: "https://www.true.org.au/resources", description: "A leading provider of reproductive and sexual health services, offering clinical services, education for professionals, and community resources in Queensland.", category: "womens-health", keywords: "contraception sti sexual health family planning sexual health clinic IUD implanon pill pap smear cervical screening vasectomy", audience: ['patients', 'professionals'] },
+            { name: "UKMEC", url: "https://www.ukmec.co.uk/", description: "The UK Medical Eligibility Criteria for Contraceptive Use (UKMEC) provides evidence-based guidance for clinicians on the safety of contraceptive methods for patients with specific medical conditions.", category: "womens-health", keywords: "contraception guidelines ukmec family planning medical eligibility clinician resource contraceptive safety pill check", audience: ['professionals'] },
+
+            // General Health and Chronic Conditions
+            { name: "Allergy & Anaphylaxis Australia", url: "https://allergy.org.au/", description: "A patient support organisation providing information, advocacy, and resources for Australians with allergic diseases, including food allergies and anaphylaxis.", category: "general-health", keywords: "allergy anaphylaxis hay fever eczema hives ASCIA EpiPen food allergy urticaria allergic rhinitis", audience: ['patients', 'professionals'] },
+            { name: "Arthritis Australia", url: "https://arthritisaustralia.com.au/", description: "Provides information, support, and advocacy for people with all forms of arthritis, offering self-management strategies, exercise programs, and funding research.", category: "general-health", keywords: "arthritis joints sore knee rheumatoid osteoarthritis joint pain gout rheumatism joint inflammation autoimmune psoriatic arthritis", audience: ['patients', 'professionals'] },
+            { name: "Asthma Australia", url: "https://asthma.org.au/", description: "Provides extensive information, education, and support for people with asthma and their carers, including a helpline (1800 ASTHMA) and resources on managing the condition.", category: "general-health", keywords: "asthma puffer inhaler breathing COPD wheezing asthma action plan reliever preventer", audience: ['patients', 'professionals'] },
+            { name: "Australian Commission on Safety and Quality in Health Care (ACSQHC)", url: "https://www.safetyandquality.gov.au/", description: "The national body that works in partnership with patients, clinicians, and health care organisations to improve the safety and quality of health care in Australia.", category: "general-health", keywords: "acsqhc safety quality healthcare standards patient safety clinical care", audience: ['professionals'] },
+            { name: "Australian Dental Association (ADA)", url: "https://www.ada.org.au/", description: "The peak professional body for dentists in Australia. The website offers a 'Find a Dentist' search and public resources on oral health.", category: "general-health", keywords: "ada dentist find a dentist oral health dental teeth", audience: ['patients', 'professionals'] },
+            { name: "Australian Dental Foundation", url: "https://www.dentalfoundation.org.au/resources/", description: "Provides resources, fact sheets, and community programs to promote good oral health and prevent dental disease for all Australians.", category: "general-health", keywords: "dental oral health teeth gums dentist toothache cavities gingivitis wisdom teeth fillings", audience: ['patients'] },
+            { name: "Australian Immunisation Handbook", url: "https://immunisationhandbook.health.gov.au/", description: "The official national clinical guidelines for health professionals on the safest and most effective use of vaccines in Australia.", category: "general-health", keywords: "vaccination immunisation vaccine schedule handbook shots jabs vaccine side effects ATAGI", audience: ['professionals'] },
+            { name: "Australian Institute of Health and Welfare (AIHW)", url: "https://www.aihw.gov.au/", description: "Australia’s national agency for health and welfare statistics, providing data and reports on a wide range of topics.", category: "general-health", keywords: "aihw statistics data health trends reports", audience: ['professionals'] },
+            { name: "Australian Medical Association (AMA)", url: "https://www.ama.com.au/", description: "A peak professional body representing Australian doctors, advocating on issues affecting the medical profession and public health.", category: "general-health", keywords: "ama doctors physicians medical association advocacy", audience: ['professionals'] },
+            { name: "Australian Medical Council (AMC)", url: "https://www.amc.org.au/", description: "The independent national body responsible for accrediting medical education and training to ensure high standards of medical practice.", category: "general-health", keywords: "amc medical education standards accreditation doctors", audience: ['professionals'] },
+            { name: "Australian Pain Management Association (APMA)", url: "https://www.painmanagement.org.au/", description: "A health charity providing support, information, and advocacy for people living with chronic pain and their families.", category: "general-health", keywords: "apma chronic pain support group pain management resources", audience: ['patients'] },
+            { name: "Australian Physiotherapy Association (APA)", url: "https://australian.physio/", description: "The peak professional body for Australian physiotherapists. Offers public resources and a 'Find a Physio' tool.", category: "general-health", keywords: "apa physiotherapy find a physio physiotherapist", audience: ['patients', 'professionals'] },
+            { name: "Australian Psychological Society (APS)", url: "https://psychology.org.au/", description: "The peak professional body for psychologists in Australia, providing a 'Find a Psychologist' service and public resources.", category: "general-health", keywords: "aps find a psychologist psychology mental health", audience: ['patients', 'professionals'] },
+            { name: "Australian Red Cross Lifeblood", url: "https://www.lifeblood.com.au/", description: "The national blood service in Australia, responsible for collecting, processing, and distributing blood and blood products.", category: "general-health", keywords: "lifeblood donate blood blood donation plasma platelets", audience: ['patients'] },
+            { name: "Australian Scleroderma Interest Group (ASIG)", url: "https://scleroderma.org.au/", description: "Provides information, support, and resources for people with scleroderma, their families, and health professionals.", category: "general-health", keywords: "asig scleroderma autoimmune connective tissue disease raynaud's", audience: ['patients', 'professionals'] },
+            { name: "Austroads", url: "https://austroads.gov.au/drivers-and-vehicles/assessing-fitness-to-drive", description: "Publishes the national 'Assessing Fitness to Drive' guidelines and standards used by health professionals and licensing authorities to ensure road safety.", category: "general-health", keywords: "driving fitness to drive medical assessment licence epilepsy diabetes vision standards", audience: ['professionals'] },
+            { name: "Bowel Cancer Australia", url: "https://www.bowelcanceraustralia.org/", description: "A national charity dedicated to bowel cancer prevention, early diagnosis, research, and patient support.", category: "general-health", keywords: "bowel cancer colon cancer colorectal cancer screening FOBT colonoscopy", audience: ['patients', 'professionals'] },
+            { name: "Breast Cancer Network Australia (BCNA)", url: "https://www.bcna.org.au/", description: "The peak national organisation for Australians affected by breast cancer, providing information, support, and advocacy.", category: "general-health", keywords: "bcna breast cancer support pink lady my journey kit", audience: ['patients'] },
+            { name: "Brisbane South HealthPathways", url: "https://brisbanesouth.communityhealthpathways.org/", description: "A web-based portal providing clinical and referral pathway information for GPs in the Brisbane South region to help navigate the local healthcare system.", category: "general-health", keywords: "healthpathways referral brisbane gp resource clinical pathway specialist outpatient", audience: ['professionals'] },
+            { name: "Cancer Council Australia", url: "https://www.cancer.org.au/", description: "Australia's peak cancer control organisation. Provides prevention advice (e.g., SunSmart), support services (13 11 20 helpline), and funds world-class cancer research.", category: "general-health", keywords: "cancer chemotherapy radiation oncology cancer support clinical trials sunscreen melanoma bowel cancer breast cancer lung cancer skin check biopsy chemo", audience: ['patients', 'professionals'] },
+            { name: "CDC - Shared Decision-Making", url: "https://www.cdc.gov/vaccines/acip/acip-scdm-faqs.html", description: "Provides guidance for clinicians on the ACIP's shared clinical decision-making recommendations for vaccines like Meningococcal B, HPV, and Pneumococcal.", category: "general-health", keywords: "vaccines immunisation cdc acip shared decision making meningococcal hepatitis b hpv pneumococcal clinician resource", audience: ['professionals'] },
+            { name: "Centers for Disease Control (CDC)", url: "https://www.cdc.gov/", description: "The United States' national public health agency. A trusted source of health information, guidelines, and data on a vast range of diseases and conditions.", category: "general-health", keywords: "cdc public health disease control epidemiology prevention health information pandemic epidemic infectious diseases travel health", audience: ['patients', 'professionals'] },
+            { name: "Choose Physio - Find a Physio", url: "https://choose.physio/find-a-physio", description: "The official directory from the Australian Physiotherapy Association to help you find a qualified physiotherapist in your area, with options to search by specialty or condition.", category: "general-health", keywords: "physiotherapy physio find a physio sports injury rehabilitation back pain neck pain joint pain muscle strain", audience: ['patients', 'professionals'] },
+            { name: "Choosing Wisely Australia", url: "https://www.choosingwisely.org.au/", description: "Promotes conversations between clinicians and patients about tests, treatments, and procedures to avoid unnecessary care.", category: "general-health", keywords: "overdiagnosis unnecessary tests evidence-based medicine shared decision making bloods imaging scans blood tests medical tests", audience: ['patients', 'professionals'] },
+            { name: "Chronic Pain Australia", url: "https://www.chronicpainaustralia.org.au/", description: "A national voice for people living with chronic pain, providing advocacy, support, and information.", category: "general-health", keywords: "chronic pain support advocacy information resources pain management", audience: ['patients'] },
+            { name: "Coeliac Australia", url: "https://www.coeliac.org.au/", description: "The national organisation providing support, resources, and advocacy for people with coeliac disease and those following a gluten-free diet for medical reasons.", category: "general-health", keywords: "coeliac disease gluten free gut health intolerance dermatitis herpetiformis bloating", audience: ['patients', 'professionals'] },
+            { name: "Communicable Diseases Network Australia (CDNA)", url: "https://www.health.gov.au/committees-and-groups/communicable-diseases-network-australia-cdna", description: "Provides national public health coordination and leadership on communicable disease surveillance, prevention, and control.", category: "general-health", keywords: "cdna communicable disease public health infectious disease surveillance", audience: ['professionals'] },
+            { name: "Continence Foundation of Australia", url: "https://www.continence.org.au/", description: "The national peak body for incontinence prevention, management, and advocacy. Operates the National Continence Helpline and provides resources for all ages.", category: "general-health", keywords: "incontinence bladder bowel urine leakage leaking pelvic floor bed wetting enuresis pads", audience: ['patients', 'professionals'] },
+            { name: "Crohn's & Colitis Australia", url: "https://www.crohnsandcolitis.com.au/", description: "The peak national body for inflammatory bowel disease (IBD), providing support, education, and advocacy for people with Crohn's disease and ulcerative colitis.", category: "general-health", keywords: "crohn's disease ulcerative colitis ibd inflammatory bowel disease gut health", audience: ['patients', 'professionals'] },
+            { name: "Cystic Fibrosis Australia", url: "https://www.cysticfibrosis.org.au/", description: "The national peak body providing support, services, and advocacy for Australians with cystic fibrosis.", category: "general-health", keywords: "cystic fibrosis cf genetic condition lung disease", audience: ['patients', 'professionals'] },
+            { name: "Dementia Australia", url: "https://www.dementia.org.au/", description: "The national peak body for people of all ages living with all forms of dementia. Provides the National Dementia Helpline, support, education, and funds research.", category: "general-health", keywords: "dementia alzheimer's memory loss forgetful carer help cognitive decline sundowning lewy body", audience: ['patients', 'professionals'] },
+            { name: "DermNet NZ", url: "https://dermnetnz.org/", description: "A comprehensive, world-renowned online resource providing authoritative information about skin diseases, conditions, and treatments for patients and health professionals.", category: "general-health", keywords: "skin dermatology rash eczema psoriasis acne mole skin cancer dermnet", audience: ['patients', 'professionals'] },
+            { name: "Diabetes Australia", url: "https://www.diabetesaustralia.com.au/", description: "The national peak body for all people affected by all types of diabetes, providing support, advocacy, and funding for research.", category: "general-health", keywords: "diabetes type 1 type 2 gestational blood sugar glucose insulin", audience: ['patients', 'professionals'] },
+            { name: "Dietitians Australia", url: "https://dietitiansaustralia.org.au/", description: "The peak body for dietetic and nutrition professionals in Australia. Provides a directory to find an Accredited Practising Dietitian (APD).", category: "general-health", keywords: "dietitian find a dietitian nutrition apd healthy eating", audience: ['patients', 'professionals'] },
+            { name: "Disability Gateway", url: "https://www.disabilitygateway.gov.au/", description: "An Australian Government service providing information and links to trusted services for people with disability, their families, and carers.", category: "general-health", keywords: "disability support ndis services carer gateway", audience: ['patients'] },
+            { name: "Eczema Association of Australasia", url: "https://www.eczema.org.au/", description: "A non-profit organisation providing support, information, and resources for people living with eczema.", category: "general-health", keywords: "eczema dermatitis atopic eczema skin condition rash", audience: ['patients'] },
+            { name: "Epilepsy Action Australia", url: "https://www.epilepsy.org.au/", description: "Provides support, information, and innovative services to people living with epilepsy across Australia.", category: "general-health", keywords: "epilepsy seizures seizure first aid epilepsy management", audience: ['patients', 'professionals'] },
+            { name: "GLA:D Australia", url: "https://gladaustralia.com.au/", description: "An education and exercise program based on the latest evidence for people with hip or knee osteoarthritis, helping to reduce symptoms and improve quality of life.", category: "general-health", keywords: "glad program osteoarthritis hip pain knee pain arthritis exercise joint pain management physiotherapy", audience: ['patients', 'professionals'] },
+            { name: "Haemochromatosis Australia", url: "https://www.haemochromatosis.org.au/", description: "Provides information, support, and advocacy for people with haemochromatosis (iron overload disorder).", category: "general-health", keywords: "haemochromatosis iron overload ferritin venesection genetic disorder", audience: ['patients', 'professionals'] },
+            { name: "Headache Australia", url: "https://headacheaustralia.org.au/", description: "Provides information, support, and resources for people living with headache and migraine.", category: "general-health", keywords: "headache migraine cluster headache tension headache pain relief", audience: ['patients'] },
+            { name: "Health Consumers Australia", url: "https://www.healthconsumers.org.au/", description: "The national peak body for health consumers, representing their interests in policy and advocating for a consumer-centred health system.", category: "general-health", keywords: "patient advocacy consumer rights health policy", audience: ['patients', 'professionals'] },
+            { name: "Health.gov.au", url: "https://www.health.gov.au/", description: "The central hub for all Australian Government health information, including public health campaigns, policies, and programs.", category: "general-health", keywords: "government health department public health policy", audience: ['patients', 'professionals'] },
+            { name: "Healthdirect", url: "https://www.healthdirect.gov.au/", description: "A government-funded 24/7 service offering a trusted symptom checker, health information, and advice line (1800 022 222).", category: "general-health", keywords: "healthdirect symptom checker health information advice line", audience: ['patients'] },
+            { name: "Hearing Australia", url: "https://www.hearing.com.au/", description: "Australia's largest provider of government-funded and private hearing services, including tests, hearing aids, and support for children, adults, and seniors.", category: "general-health", keywords: "hearing loss deaf audiology hearing aids tinnitus hearing test cochlear implant audiogram", audience: ['patients'] },
+            { name: "Heart Foundation", url: "https://www.heartfoundation.org.au/", description: "A national charity dedicated to fighting cardiovascular disease. Funds research, supports patients, and promotes heart health with a range of downloadable resources and healthy recipes.", category: "general-health", keywords: "heart attack stroke cholesterol blood pressure heart disease hypertension heart valve atrial fibrillation bypass heart health recipes high cholesterol chest pain angina cardiovascular high blood pressure", audience: ['patients', 'professionals'] },
+            { name: "Healthy Bones Australia", url: "https://healthybonesaustralia.org.au/", description: "Formerly Osteoporosis Australia, this organisation is dedicated to bone health, providing information on preventing and managing osteoporosis and reducing fracture risk.", category: "general-health", keywords: "osteoporosis bone density calcium vitamin d fracture prevention osteopenia bone scan DEXA", audience: ['patients', 'professionals'] },
+            { name: "Hepatitis Australia", url: "https://www.hepatitisaustralia.com/", description: "The national peak body representing the interests of people affected by viral hepatitis in Australia.", category: "general-health", keywords: "hepatitis hep b hep c viral hepatitis liver disease", audience: ['patients', 'professionals'] },
+            { name: "Kidney Health Australia", url: "https://kidney.org.au/", description: "The national peak body for kidney health. Works to prevent, detect, and support Australians with kidney disease through research, advocacy, and patient services like the Big Red Kidney Bus.", category: "general-health", keywords: "kidney disease renal dialysis transplant CKD ESRF nephrology kidney failure", audience: ['patients', 'professionals'] },
+            { name: "Kirby Institute", url: "https://kirby.unsw.edu.au/", description: "A leading global research institute at UNSW, dedicated to the prevention and treatment of infectious diseases, including HIV and viral hepatitis.", category: "general-health", keywords: "kirby institute infectious disease research hiv viral hepatitis", audience: ['professionals'] },
+            { name: "Leukaemia Foundation", url: "https://www.leukaemia.org.au/", description: "Provides support, information, and funds research for Australians living with blood cancers like leukaemia, lymphoma, and myeloma.", category: "general-health", keywords: "leukaemia lymphoma myeloma blood cancer haematology", audience: ['patients'] },
+            { name: "Lung Foundation Australia", url: "https://lungfoundation.com.au/", description: "The national charity dedicated to lung health. Provides advocacy, support services, and funds research for a range of lung diseases including COPD, lung cancer, and asthma.", category: "general-health", keywords: "lung breathing copd lung cancer pulmonary pulmonary fibrosis smoking occupational lung disease shortness of breath emphysema bronchitis asthma", audience: ['patients', 'professionals'] },
+            { name: "Lupus Association of NSW Inc", url: "https://www.lupusnsw.org.au/", description: "A support group providing information, resources, and community for people with lupus in NSW, with links to national information.", category: "general-health", keywords: "lupus sle systemic lupus erythematosus autoimmune disease", audience: ['patients'] },
+            { name: "MBS Online", url: "https://www.mbsonline.gov.au/", description: "The official government website providing the latest information on the Medicare Benefits Schedule (MBS), including item numbers, descriptions, fees, and rules.", category: "general-health", keywords: "mbs medicare item numbers billing schedule of fees", audience: ['professionals'] },
+            { name: "Melanoma Institute Australia", url: "https://www.melanoma.org.au/", description: "A national research and treatment institute dedicated to preventing and curing melanoma through world-class research, treatment, and education programs.", category: "general-health", keywords: "melanoma skin cancer mole check sun safety research", audience: ['patients', 'professionals'] },
+            { name: "Memorial Sloan Kettering Cancer Center", url: "https://www.mskcc.org/", description: "A world-leading center for cancer treatment, research, and education. Provides comprehensive care and pioneers new treatments. An excellent resource for patient information.", category: "general-health", keywords: "cancer oncology cancer research msc clinical trials chemotherapy immunotherapy", audience: ['patients', 'professionals'] },
+            { name: "MESA Score Risk Calculator", url: "https://internal.mesa-nhlbi.org/about/procedures/tools/mesa-score-risk-calculator", description: "A clinical tool for health professionals to calculate a 10-year coronary artery disease (CAD) risk score based on the Multi-Ethnic Study of Atherosclerosis.", category: "general-health", keywords: "mesa score cardiovascular risk heart disease risk calculator coronary artery disease atherosclerosis clinician tool risk assessment calcium score", audience: ['professionals'] },
+            { name: "MND Australia", url: "https://www.mnd.org.au/", description: "The national peak body for Motor Neurone Disease. Funds research, provides information, and supports state MND associations to deliver care and services.", category: "general-health", keywords: "motor neurone disease MND neurological ALS Lou Gehrig's disease", audience: ['patients', 'professionals'] },
+            { name: "MS Australia", url: "https://www.msaustralia.org.au/", description: "The peak national body for multiple sclerosis, funding research and providing support and advocacy for people living with MS.", category: "general-health", keywords: "multiple sclerosis ms neurological autoimmune disease", audience: ['patients', 'professionals'] },
+            { name: "MSKCC About Herbs", url: "https://www.mskcc.org/cancer-care/diagnosis-treatment/symptom-management/integrative-medicine/herbs/search", description: "An evidence-based database from MSKCC on herbs, botanicals, and supplements, detailing their potential uses, side effects, and risks, particularly in cancer care.", category: "general-health", keywords: "herbs supplements integrative medicine cancer care botanicals complementary medicine alternative medicine natural remedies herbal medicine", audience: ['patients', 'professionals'] },
+            { name: "Muscular Dystrophy Australia", url: "https://www.mda.org.au/", description: "Provides support, services, and funds research for people and families living with muscular dystrophy.", category: "general-health", keywords: "muscular dystrophy neuromuscular disorder genetic condition", audience: ['patients', 'professionals'] },
+            { name: "My Aged Care", url: "https://www.myagedcare.gov.au/", description: "The Australian Government's starting point to access government-funded aged care services, including assessments (ACAT), home care packages, and residential aged care.", category: "general-health", keywords: "aged care elderly seniors nursing home home care package ACAT assessment respite residential care", audience: ['patients'] },
+            { name: "My Health Record", url: "https://www.digitalhealth.gov.au/initiatives-and-programs/my-health-record", description: "A secure online summary of your key health information, managed by the Australian Digital Health Agency.", category: "general-health", keywords: "my health record digital health patient records online health summary", audience: ['patients'] },
+            { name: "Myeloma Australia", url: "https://www.myeloma.org.au/", description: "The peak body for myeloma patients and their families, providing support, information, and funding for research.", category: "general-health", keywords: "myeloma blood cancer haematology plasma cells", audience: ['patients'] },
+            { name: "National Asthma Council Australia", url: "https://www.nationalasthma.org.au/", description: "A not-for-profit organisation providing information, guidelines, and resources on asthma management, including demonstrations of correct inhaler technique for patients and health professionals.", category: "general-health", keywords: "asthma copd inhaler technique puffer how to use spacer national asthma council wheeze asthma first aid", audience: ['patients', 'professionals'] },
+            { name: "National Health and Medical Research Council (NHMRC)", url: "https://www.nhmrc.gov.au/", description: "Australia's leading expert body for funding health and medical research and developing health advice for the community and health professionals.", category: "general-health", keywords: "nhmrc research health guidelines clinical practice guidelines", audience: ['professionals'] },
+            { name: "National Immunisation Program (NIP)", url: "https://www.health.gov.au/our-work/national-immunisation-program", description: "Provides information on the free essential vaccines available to specific groups of people in Australia to protect against a range of diseases.", category: "general-health", keywords: "nip immunisation vaccine schedule free vaccines childhood immunisation", audience: ['patients', 'professionals'] },
+            { name: "NPS MedicineWise", url: "https://www.nps.org.au/", description: "Provides independent, evidence-based information on medicines, health conditions, and medical tests. Includes the free Medicines Line phone service.", category: "general-health", keywords: "medication prescriptions pharmacy pills side effects drug interactions medication list medicines line", audience: ['patients', 'professionals'] },
+            { name: "Occupational Therapy Australia", url: "https://www.otaus.com.au/", description: "The peak professional body for occupational therapists in Australia, with a directory to find an OT.", category: "general-health", keywords: "occupational therapy find an ot allied health", audience: ['patients', 'professionals'] },
+            { name: "Ovarian Cancer Australia", url: "https://www.ovariancancer.net.au/", description: "Provides support, advocacy, and raises awareness for women affected by ovarian cancer.", category: "general-health", keywords: "ovarian cancer gynaecological cancer women's cancer", audience: ['patients'] },
+            { name: "Painaustralia", url: "https://www.painaustralia.org.au/", description: "The national peak advocacy body working to improve the quality of life for people living with chronic pain through policy change, education, and awareness.", category: "general-health", keywords: "chronic pain pain management sore ache advocacy nerve pain fibromyalgia analgesia back pain", audience: ['patients', 'professionals'] },
+            { name: "palliAGED", url: "https://www.palliaged.com.au/", description: "A trusted online resource providing evidence-based information on palliative care for older Australians in aged care.", category: "general-health", keywords: "palliative care aged care end of life hospice", audience: ['patients', 'professionals'] },
+            { name: "Palliative Care Australia", url: "https://palliativecare.org.au/", description: "The national peak body for palliative care. Advocates for quality end-of-life care for all Australians and provides resources for patients, families, and clinicians.", category: "general-health", keywords: "palliative care end of life hospice terminal illness advance care planning dying symptom control", audience: ['patients', 'professionals'] },
+            { name: "Parkinson's Australia", url: "https://www.parkinsons.org.au/", description: "The national peak body representing and supporting people with Parkinson's disease, their families, and carers.", category: "general-health", keywords: "parkinson's disease tremor movement disorder neurological condition", audience: ['patients', 'professionals'] },
+            { name: "Poisons Information Centre", url: "https://www.poisonsinfo.org.au/", description: "Provides a 24/7 hotline (13 11 26) for fast, expert advice on poisons, bites, and stings.", category: "general-health", keywords: "poisons hotline emergency overdose bite sting poisoning", audience: ['patients', 'professionals'] },
+            { name: "QLD Health Nutrition", url: "https://www.health.qld.gov.au/nutrition", description: "Provides a wide range of nutrition information, fact sheets, and healthy eating resources for patients and the public from Queensland Health.", category: "general-health", keywords: "nutrition diet healthy eating dietitian patient fact sheets diet plan recipes", audience: ['patients'] },
+            { name: "Quit", url: "https://www.quit.org.au/", description: "Provides tools, information and support to help Australians quit smoking and vaping. Operates the Quitline service for personalised advice and support.", category: "general-health", keywords: "quit smoking nicotine cigarettes vaping stop smoking e-cigarettes patches quitting vaping", audience: ['patients'] },
+            { name: "RACGP", url: "https://www.racgp.org.au/", description: "The Royal Australian College of General Practitioners is the peak professional body for GPs, providing training, standards, and advocacy.", category: "general-health", keywords: "racgp gps general practice clinical guidelines", audience: ['professionals'] },
+            { name: "RACP", url: "https://www.racp.edu.au/", description: "The Royal Australasian College of Physicians is the professional body for physicians and paediatricians in Australia and New Zealand.", category: "general-health", keywords: "racp physician specialist paediatrician training", audience: ['professionals'] },
+            { name: "RACS", url: "https://www.surgeons.org/", description: "The Royal Australasian College of Surgeons is the leading body for surgical education, training, and standards in Australia and New Zealand.", category: "general-health", keywords: "racs surgeon surgical training standards", audience: ['professionals'] },
+            { name: "RANZCP", url: "https://www.ranzcp.org/", description: "The Royal Australian and New Zealand College of Psychiatrists is the principal organisation representing the medical specialty of psychiatry.", category: "general-health", keywords: "ranzcp psychiatrist psychiatry mental health training", audience: ['professionals'] },
+            { name: "RCPA Manual", url: "https://www.rcpa.edu.au/Manuals/RCPA-Manual", description: "The Royal College of Pathologists of Australasia Manual provides comprehensive guidelines and information on pathology tests, services, and specimen collection for clinicians.", category: "general-health", keywords: "pathology tests lab tests rcpa blood tests pathology results lab manual specimen collection", audience: ['professionals'] },
+            { name: "Royal Flying Doctor Service (RFDS)", url: "https://www.flyingdoctor.org.au/", description: "Provides comprehensive primary healthcare and 24-hour emergency services to people in rural and remote Australia.", category: "general-health", keywords: "rfds flying doctor rural health remote health emergency", audience: ['patients', 'professionals'] },
+            { name: "Safe Work Australia", url: "https://www.safeworkaustralia.gov.au/", description: "The national policy body responsible for developing work health and safety (WHS) and workers' compensation policies.", category: "general-health", keywords: "safe work whs occupational health safety workplace", audience: ['professionals'] },
+            { name: "SHPA", url: "https://www.shpa.org.au/", description: "The Society of Hospital Pharmacists of Australia is the professional body for pharmacists and technicians working in hospitals and other clinical settings.", category: "general-health", keywords: "shpa hospital pharmacy clinical pharmacist medicines", audience: ['professionals'] },
+            { name: "Skin Health Institute", url: "https://skinhealthinstitute.org.au/for-patients/", description: "A leading centre for skin health in Australia, providing patient care for skin diseases, skin cancer, and dermatology. Offers reliable patient fact sheets.", category: "general-health", keywords: "skin dermatology skin cancer melanoma eczema psoriasis rash mole check dermatitis acne rosacea", audience: ['patients', 'professionals'] },
+            { name: "Smartraveller", url: "https://www.smartraveller.gov.au/", description: "The Australian Government's official travel advice service. Provides up-to-date information on travel warnings, visa requirements, and consular assistance for Australians overseas.", category: "general-health", keywords: "travel vaccinations overseas holiday travel warnings consular assistance passport visa", audience: ['patients'] },
+            { name: "Speech Pathology Australia", url: "https://www.speechpathologyaustralia.org.au/", description: "The professional body for speech pathologists in Australia, with a directory to find a speech pathologist.", category: "general-health", keywords: "speech pathology find a speechie speech therapist stuttering language delay", audience: ['patients', 'professionals'] },
+            { name: "Stroke Foundation", url: "https://strokefoundation.org.au/", description: "A national charity dedicated to stroke prevention, treatment, and recovery, providing support for survivors and their families.", category: "general-health", keywords: "stroke fast stroke recovery prevention rehabilitation", audience: ['patients', 'professionals'] },
+            { name: "The Australian Register of Therapeutic Goods (ARTG)", url: "https://www.tga.gov.au/", description: "A public register of therapeutic goods (medicines, medical devices) that can be legally supplied in Australia, managed by the TGA.", category: "general-health", keywords: "artg tga therapeutic goods register approved medicines medical devices", audience: ['patients', 'professionals'] },
+            { name: "The Gut Foundation", url: "https://www.thegutfoundation.org/", description: "Raises awareness and funds research for digestive health and diseases, including IBS, IBD, and bowel cancer.", category: "general-health", keywords: "gut health digestive ibs ibd crohn's colitis bowel cancer", audience: ['patients'] },
+            { name: "Thyroid Foundation", url: "https://thyroidfoundation.org.au/", description: "Provides support and education for people with thyroid disorders, including hyperthyroidism, hypothyroidism, nodules, and thyroid cancer.", category: "general-health", keywords: "thyroid hyperthyroidism hypothyroidism goitre Graves' disease Hashimoto's underactive overactive TSH", audience: ['patients', 'professionals'] },
+            { name: "Vision Australia", url: "https://www.visionaustralia.org/", description: "Supports people who are blind or have low vision to live the life they choose. Provides a wide range of services including Seeing Eye Dogs, audiobooks, and assistive technology.", category: "general-health", keywords: "vision loss blind low vision macular degeneration guide dogs glaucoma cataracts retinopathy", audience: ['patients'] },
+            { name: "WorkSafe QLD Fees", url: "https://www.worksafe.qld.gov.au/service-providers/fees", description: "The official table of costs for medical services provided under WorkCover Queensland for workplace injuries. A resource for medical providers.", category: "general-health", keywords: "workcover worksafe occupational health fees schedule queensland workplace injury", audience: ['professionals'] },
+            { name: "YOGABODY", url: "https://www.youtube.com/yogabody-official", description: "A YouTube channel focused on yoga for pain relief and flexibility. Offers science-based routines and physiotherapy exercises for conditions like back pain, sciatica, and improving overall mobility.", category: "general-health", keywords: "yoga youtube exercise physio physiotherapy flexibility stretching back pain sciatica hip pain home workout fitness mobility", audience: ['patients'] },
+
+            // Specific Communities and Populations
+            { name: "13YARN", url: "https://www.13yarn.org.au/", description: "A national crisis support line (13 92 76) for Aboriginal and Torres Strait Islander people who are feeling overwhelmed or having difficulty coping.", category: "specific-communities", keywords: "13yarn aboriginal torres strait islander indigenous mental health crisis support", audience: ['patients'] },
+            { name: "ACON", url: "https://www.acon.org.au/", description: "A NSW-based community organisation specializing in HIV prevention, support, and LGBTIQ+ health.", category: "specific-communities", keywords: "acon hiv lgbtiq+ health sexual health prevention", audience: ['patients', 'professionals'] },
+            { name: "AFAO", url: "https://www.afao.org.au/", description: "The Australian Federation of AIDS Organisations is the peak body for Australia's community-based response to HIV.", category: "specific-communities", keywords: "afao hiv aids policy advocacy", audience: ['professionals'] },
+            { name: "ASHM", url: "https://ashm.org.au/", description: "The Australasian Society for HIV, Viral Hepatitis and Sexual Health Medicine. Supports the health workforce with training, resources, and guidelines to improve patient care.", category: "specific-communities", keywords: "HIV viral hepatitis sexual health bbv sti guidelines hepatitis B hepatitis C HIV treatment", audience: ['professionals'] },
+            { name: "Australian Indigenous HealthInfoNet", url: "https://healthinfonet.ecu.edu.au/", description: "A comprehensive knowledge resource providing evidence-based information on Aboriginal and Torres Strait Islander health.", category: "specific-communities", keywords: "indigenous healthinfonet aboriginal torres strait islander health research", audience: ['professionals'] },
+            { name: "Healing Foundation", url: "https://healingfoundation.org.au/", description: "A national Aboriginal and Torres Strait Islander organisation that partners with communities to address the ongoing trauma caused by actions like the Stolen Generations.", category: "specific-communities", keywords: "healing foundation stolen generations indigenous trauma healing", audience: ['patients', 'professionals'] },
+            { name: "IAHA", url: "https://iaha.com.au/", description: "Indigenous Allied Health Australia is the national peak body for the Aboriginal and Torres Strait Islander allied health workforce.", category: "specific-communities", keywords: "iaha indigenous allied health workforce", audience: ['professionals'] },
+            { name: "LGBTIQ+ Health Australia", url: "https://www.lgbtiqhealth.org.au/", description: "The national peak health organisation for LGBTIQ+ people. Provides policy advice, research, and resources to promote health and wellbeing for diverse communities.", category: "specific-communities", keywords: "lgbt gay lesbian transgender queer inclusive practice gender affirming care PrEP trans health bisexual intersex", audience: ['patients', 'professionals'] },
+            { name: "NACCHO", url: "https://www.naccho.org.au/", description: "The national peak body representing Aboriginal Community Controlled Health Organisations (ACCHOs) on Aboriginal and Torres Strait Islander health issues.", category: "specific-communities", keywords: "aboriginal torres strait islander indigenous health ACCHO closing the gap first nations health", audience: ['professionals'] },
+            { name: "National Allergy Council", url: "https://www.nationalallergycouncil.org.au/", description: "A collaborative partnership providing information and resources on allergy prevention, management, and care.", category: "specific-communities", keywords: "national allergy council allergy prevention management", audience: ['patients', 'professionals'] },
+            { name: "National Rural Health Alliance", url: "https://www.ruralhealth.org.au/", description: "Advocates for the health and wellbeing of people in rural and remote Australia.", category: "specific-communities", keywords: "rural health remote health country health", audience: ['patients', 'professionals'] },
+            { name: "NIAA", url: "https://www.niaa.gov.au/", description: "The National Indigenous Australians Agency works to improve the lives of Aboriginal and Torres Strait Islander peoples by influencing policy and programs.", category: "specific-communities", keywords: "niaa indigenous australians agency government policy", audience: ['professionals'] },
+            { name: "Open Arms - Veterans & Families Counselling", url: "https://www.openarms.gov.au/", description: "A free and confidential 24/7 service for current and ex-serving Australian Defence Force members and their families.", category: "specific-communities", keywords: "veterans mental health adf families ptsd defence force", audience: ['patients'] },
+            { name: "QLife", url: "https://qlife.org.au/", description: "A national anonymous telephone and online peer support and referral service for LGBTIQ+ people.", category: "specific-communities", keywords: "qlife lgbtiq+ support peer support gay lesbian transgender queer helpline", audience: ['patients'] },
+            { name: "Rare Voices Australia", url: "https://rarevoices.org.au/", description: "The national peak body for Australians living with a rare disease. Provides advocacy, support, and a unified voice to government to improve lives and outcomes.", category: "specific-communities", keywords: "rare disease genetic conditions undiagnosed patient advocacy baby infant child orphan disease genetic disorder", audience: ['patients', 'professionals'] },
+            { name: "Refugee Health Australia", url: "https://www.refugeehealthaustralia.org/", description: "A resource hub for health professionals and organisations to support the health and wellbeing of refugees and asylum seekers in Australia.", category: "specific-communities", keywords: "refugee asylum seeker migrant health cultural safety torture and trauma interpreters", audience: ['professionals'] },
+            { name: "Rural Doctors Association of Australia (RDAA)", url: "https://www.rdaa.com.au/", description: "A national body advocating for rural and remote doctors and the health of their communities.", category: "specific-communities", keywords: "rdaa rural doctors remote medicine advocacy", audience: ['professionals'] },
+            { name: "TIS National", url: "https://www.tisnational.gov.au/", description: "The Translating and Interpreting Service provides interpreting services for people who do not speak English and for the agencies that service them.", category: "specific-communities", keywords: "tis national interpreter translating language support", audience: ['patients', 'professionals'] },
+        ];
+
+        const grid = document.getElementById('resource-grid');
+        const nav = document.getElementById('filter-nav');
+        const searchBar = document.getElementById('search-bar');
+        const noResults = document.getElementById('no-results');
+        const searchTermSpan = document.getElementById('search-term');
+        const homeBtn = document.getElementById('home-btn');
+        const audienceToggle = document.getElementById('audience-toggle');
+        const azIndex = document.getElementById('a-z-index');
+
+        let currentAudience = 'all';
+
+        function generateAzIndex() {
+            azIndex.innerHTML = '';
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                const a = document.createElement('a');
+                a.href = `#letter-${letter}`;
+                a.textContent = letter;
+                azIndex.appendChild(a);
+            }
+        }
+
+        function renderCards() {
+            const searchTerm = searchBar.value.toLowerCase();
+            const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+
+            let filteredResources = resources.filter(resource => {
+                const matchesCategory = activeCategory === 'all' || resource.category === activeCategory;
+                
+                const searchableText = (
+                    resource.name + ' ' + 
+                    resource.description + ' ' + 
+                    resource.keywords
+                ).toLowerCase();
+                const matchesSearch = searchTerm === '' || searchableText.includes(searchTerm);
+
+                const matchesAudience = currentAudience === 'all' || resource.audience.includes(currentAudience);
+
+                return matchesCategory && matchesSearch && matchesAudience;
+            });
+
+            filteredResources.sort((a, b) => a.name.localeCompare(b.name));
+
+            grid.innerHTML = '';
+            
+            const showAzIndex = searchBar.value === '' && activeCategory === 'all';
+            azIndex.style.display = showAzIndex ? 'flex' : 'none';
+
+            let currentLetter = '';
+            if (filteredResources.length > 0) {
+                grid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+                filteredResources.forEach(resource => {
+                    const firstLetter = resource.name.charAt(0).toUpperCase();
+                    if (showAzIndex && firstLetter !== currentLetter && firstLetter.match(/[A-Z]/)) {
+                        currentLetter = firstLetter;
+                        const letterHeader = document.createElement('h2');
+                        letterHeader.id = `letter-${currentLetter}`;
+                        letterHeader.className = 'letter-header col-span-full text-2xl font-bold py-4 border-b border-gray-200';
+                        letterHeader.textContent = currentLetter;
+                        grid.appendChild(letterHeader);
+                    }
+
+                    const card = document.createElement('div');
+                    const isBlog = resource.category === 'thesamagp-blog';
+                    card.className = `resource-card bg-white rounded-lg shadow-md p-6 flex flex-col hover:shadow-xl hover:-translate-y-1 ${isBlog ? 'blog-card' : ''}`;
+                    card.dataset.category = resource.category;
+
+                    card.innerHTML = `
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2">${resource.name}</h3>
+                            <p class="text-[#56585e] mb-4">${resource.description}</p>
+                        </div>
+                        <a href="${resource.url}" target="_blank" class="visit-btn inline-block mt-auto text-white font-semibold py-2 px-4 rounded-md text-center">
+                            ${isBlog ? 'Read on TheSamaGP' : 'Visit Website'}
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                grid.classList.add('hidden');
+                searchTermSpan.textContent = searchBar.value;
+                noResults.classList.remove('hidden');
+            }
+        }
+
+        searchBar.addEventListener('input', renderCards);
+
+        nav.addEventListener('click', (e) => {
+            const clickedButton = e.target.closest('button.filter-btn');
+            if (clickedButton && !clickedButton.id.includes('home-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                clickedButton.classList.add('active');
+                renderCards();
+            }
+        });
+
+        audienceToggle.addEventListener('click', (e) => {
+            const clickedButton = e.target.closest('button.audience-btn');
+            if (clickedButton) {
+                document.querySelectorAll('.audience-btn').forEach(btn => btn.classList.remove('active'));
+                clickedButton.classList.add('active');
+                currentAudience = clickedButton.dataset.audience;
+                renderCards();
+            }
+        });
+
+        homeBtn.addEventListener('click', () => {
+            searchBar.value = '';
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('button[data-category="all"]').classList.add('active');
+            document.querySelectorAll('.audience-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('button[data-audience="all"]').classList.add('active');
+            currentAudience = 'all';
+            renderCards();
+        });
+        
+        document.querySelectorAll('.filter-btn, .audience-btn').forEach(btn => {
+            if(!btn.classList.contains('px-4')){
+                 btn.classList.add('px-4', 'py-2', 'font-semibold', 'text-sm', 'rounded-full', 'shadow-sm');
+            }
+        });
+
+        window.onload = () => {
+            generateAzIndex();
+            renderCards();
+        };
+    </script>
+    <!-- This code belongs to thesamagp -->
+</body>
+</html>
